@@ -35,8 +35,6 @@ class Contenedor {
                      result = e
                  }
              })
-
-
             return result
 
         } catch (err) {
@@ -45,16 +43,41 @@ class Contenedor {
 
     }
 
-    getAll(){
+    async getAll(){
+        try {
+            let body = await fs.promises.readFile(`./${this.nFile}`,'utf-8')
+            let bodyJson = JSON.parse(body) 
+            let catalogo = bodyJson
+            return catalogo
+        } catch (err) {
+            console.log('Se presento un error en el metodo getAll' + err);
+        }
+    }
+
+    async deleteById(id){
+        try {
+            let body = await fs.promises.readFile(`./${this.nFile}`,'utf-8')
+            let bodyJson = JSON.parse(body) 
+            let nonDeleted = bodyJson.filter(e=>e.id!==id)
+            console.log(nonDeleted);
+            // await fs.promises.writeFile(`./${this.nFile}`,JSON.stringify(nonDeleted))
+                return nonDeleted
+        } catch (err) {
+            console.log('Se presento un error en el metodo deleteById' + err);
+        }
 
     }
 
-    deleteById(){
-
-    }
-
-    deleteAll(){
-
+    async deleteAll(){
+        try {
+            let body = await fs.promises.readFile(`./${this.nFile}`,'utf-8')
+            let bodyJson = JSON.parse(body) 
+            let nothing = []
+            await fs.promises.writeFile(`./${this.nFile}`,nothing)
+            return nothing;
+        } catch (error) {
+            console.log('Se presento un error en el metodo deleteAll' + err);
+        }
     }
 
 
@@ -70,6 +93,12 @@ let productoNuevo = {
 }
 
 
-// contenedor.save(productoNuevo).then(res=>{console.log(res)})
+//  contenedor.save(productoNuevo).then(res=>{console.log(res)})
 
-contenedor.getById(2).then(res=>{console.log(res);})
+// contenedor.getById(3).then(res=>{console.log(res);})
+
+//   contenedor.getAll().then(res=>{console.log(res);})
+
+//    contenedor.deleteById(2).then(res=>{console.log(res);})
+
+//    contenedor.deleteAll().then(res=>{console.log(res);})
